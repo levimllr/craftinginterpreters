@@ -99,6 +99,9 @@ public class Scanner {
         if (match('/')) {
           // A comment goes until the end of the line.
           while (peek() != '\n' && !isAtEnd()) advance();
+        } else if (match('*')) {
+          // A comment that goes until "*/"
+          multiLineComment();
         } else {
           addToken(SLASH);
         }
@@ -128,6 +131,10 @@ public class Scanner {
         }
         break;
     }
+  }
+
+  private void multiLineComment() {
+    while (peek() != '*' && !isAtEnd() && peekNext() != '/') advance();
   }
 
   private void identifier() {
