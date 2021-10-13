@@ -1,7 +1,7 @@
 package com.craftinginterpreters.lox;
 
 public class AstPrinter implements Expr.Visitor<String> {
-  private String print(Expr expr) {
+  public String print(Expr expr) {
     return expr.accept(this);
   }
 
@@ -19,6 +19,11 @@ public class AstPrinter implements Expr.Visitor<String> {
   public String visitLiteralExpr(Expr.Literal expr) {
     if (expr.value == null) return "nil";
     return expr.value.toString();
+  }
+
+  @Override
+  public String visitTernaryExpr(Expr.Ternary expr) {
+    return parenthesize("ternary", expr.equality, expr.thenBranch, expr.elseBranch);
   }
 
   @Override
